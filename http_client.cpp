@@ -1,10 +1,3 @@
-//
-//  http_client.cpp
-//  Http_Client
-//
-//  Created by afk on 2019/7/11.
-//  Copyright © 2019年 mgc. All rights reserved.
-//
 
 #include "http_client.hpp"
 
@@ -37,7 +30,7 @@ namespace mgc {
             return;
         }
         
-        void *_run_thread1(void *){
+    /*    void *_run_thread1(void *){
             std::string strResponse;
              HttpClient *http=new  HttpClient(INVALID_SOCKET,0);
             http->httpGet("http://127.0.0.1:9876/",strResponse," 0-","/Users/afk/test/urltest/test/1.mp4","/Users/afk/test/urltest/test/head1"," http://117.131.17.227:40000/_uploads/videos/huanglesong.mp4 HTTP/1.1 \r\n","Host: 117.131.17.227:40000");
@@ -51,7 +44,7 @@ namespace mgc {
             http->HttpClient::httpGet("http://127.0.0.1:9876/",strResponse," 0-","/Users/afk/test/urltest/test/2.mp4","/Users/afk/test/urltest/test/head2"," http://117.131.17.227:40000/_uploads/videos/huanglesong.mp4 HTTP/1.1 \r\n","Host: 117.131.17.227:40000");
             pthread_exit(NULL);
             
-        }
+        }*/
         
       /*  function1("/Users/afk/1.mp4", 0, "/Users/afk/test/urltest/test/2.mp4","/Users/afk/test/urltest/test/2.mp4","/Users/afk/test/urltest/test/head","http:127.0.0.1:9876/"," http://117.131.17.227:40000/_uploads/videos/huanglesong.mp4 HTTP/1.1 \r\n","Host: 117.131.17.227:40000");
        
@@ -59,25 +52,25 @@ namespace mgc {
         
         
       //  HttpClient::httpGet("http://127.0.0.1:9876/",strResponse," 0-","/Users/afk/test/urltest/test/2.mp4","/Users/afk/test/urltest/test/head"," http://117.131.17.227:40000/_uploads/videos/huanglesong.mp4 HTTP/1.1 \r\n","Host: 117.131.17.227:40000"
-        void HttpClient::run(){
-           // std::string strResponse;
-           
-            pthread_t run_thread1;
-            //pthread_t run_thread2;
-            if(pthread_create(&run_thread1, NULL,_run_thread1, this)!=0){
-                perror("error: run_thread1 create error");
-                return ;
-            }
-//            if(pthread_create(&run_thread2, NULL, _run_thread2, this)!=0){
-//                perror("error:run_thread2 create error");
+//        void HttpClient::run(){
+//           // std::string strResponse;
+//           
+//            pthread_t run_thread1;
+//            //pthread_t run_thread2;
+//            if(pthread_create(&run_thread1, NULL,_run_thread1, this)!=0){
+//                perror("error: run_thread1 create error");
+//                return ;
 //            }
-            pthread_detach(run_thread1);
-           // sleep(3);
-         //   pthread_detach(run_thread2);
-            
-          
-            return ;
-        }
+////            if(pthread_create(&run_thread2, NULL, _run_thread2, this)!=0){
+////                perror("error:run_thread2 create error");
+////            }
+//            pthread_detach(run_thread1);
+//           // sleep(3);
+//         //   pthread_detach(run_thread2);
+//            
+//          
+//            return ;
+//        }
         
         
        
@@ -146,15 +139,14 @@ namespace mgc {
 
             struct sockaddr_in servaddr;
 
-
-            bzero(&servaddr, sizeof(servaddr));
+			memset(&servaddr, 0, sizeof(servaddr));
 
             servaddr.sin_family=AF_INET;
             servaddr.sin_port=htons(iPort);
 
             if (inet_pton(AF_INET,strIP.data(),&servaddr.sin_addr)<=0) {
                 debugOut("inet_pton error!Error code:%d,Error message:%s\n",errno,strerror(errno));
-                close(m_iSocketFd);
+				closesocket(m_iSocketFd);
                 m_iSocketFd=INVALID_SOCKET;
                 return 0;
             }
@@ -174,7 +166,7 @@ namespace mgc {
             if (iRet==0) {
                 std::string strResult=httpDataTransmit(strHttpHead, m_iSocketFd,fileString,headString);
                 if (NULL==strResult.c_str()) {
-                    close(m_iSocketFd);
+					closesocket(m_iSocketFd);
                     m_iSocketFd=INVALID_SOCKET;
                     return 0;
                 }
@@ -193,7 +185,7 @@ namespace mgc {
             if(iRet>0){
                 std::string strResult=httpDataTransmit(strHttpHead, m_iSocketFd,fileString,headString);
                 if (strResult=="") {
-                    close(m_iSocketFd);
+					closesocket(m_iSocketFd);
                     m_iSocketFd=INVALID_SOCKET;
                     return 0;
                 }
@@ -204,7 +196,7 @@ namespace mgc {
 
             }
             else{
-                close(m_iSocketFd);
+				closesocket(m_iSocketFd);
                 m_iSocketFd=INVALID_SOCKET;
                 return 0;
             }
@@ -221,35 +213,11 @@ namespace mgc {
 
             strHttpHead.append(strMethod);
             strHttpHead.append(" ");
-            //strHttpHead.append(" / ");
-//            strHttpHead.append(strParam);
-            
-            
-            
-       /*     GET /depository_yqv/asset/zhengshi/5102/866/077/5102866077/media/5102866077_5007029622_95_mg001_27502144-30811695_10.ts?msisdn=13671832419&mdspid=&spid=600058&netType=4&sid=5501061419&pid=2028597139&timestamp=20200326202358&Channel_ID=0116_2500070000-99000-200300240100002&ProgramID=671512077&ParentNodeID=-99&assertID=5501061419&client_ip=221.181.101.37&SecurityKey=20200326202358&imei=868403026952439&promotionId=&mvid=5102866077&mcid=1001&mpid=130000140954&playurlVersion=WX-A1-0.0.3&userid=151480637&jmhm=13671832419&videocodec=h265&jid=5BDBED8E43156A33D95ED7BDC91532AD1585225436744V&is_advertise=0&sjid=subsession_1585225437685&encrypt=b3e350865dbc04c0c8e392489a134700&hls_type=2&HlsSubType=2&HlsProfileId=0&mtv_session=e4388175cd769e5c21f4184e98fc56f2 HTTP/1.1
-                Accept: * /*
-                  Best-Effort: true
-                  Connection: close
-                  DownloadRate: 20000
-                  Host: hlsmgspvod.miguvideo.com:8080
-                  Icy-MetaData: 1
-                  Keep-Alive: 45000
-                  Range: bytes=0-
-                  User-Agent: MGPlayer4Android/v9.9.2.29/ExtProxy1.0.0
-            
-            */
+    
 
 
             strHttpHead.append(dstUrl);
-         //   strHttpHead.append(" http://120.26.230.188/quictest/big.html HTTP/1.1 \r\n");
-           // strHttpHead.append(dstUrl);
-            //" http://117.131.17.227:40000/_uploads/videos/huanglesong.mp4 HTTP/1.1 \r\n"
-
-          //  strHttpHead.append("http://www.baidu.com/ \r\n");
-       //  strHttpHead.append("Host: 120.26.230.188");
-         // strHttpHead.append(dstPort);
-           // "Host: 117.131.17.227:40000"
-           // strHttpHead.append(strHost);
+     
             strHttpHead.append(" ");
             strHttpHead.append("HTTP/1.1\r\n");
             strHttpHead.append("User-Agent: MGPlayer4Android/v9.9.2.29\r\n");
@@ -261,48 +229,7 @@ namespace mgc {
             strHttpHead.append("Best-Effort: true\r\n");
             strHttpHead.append("DownloadRate: 20000\r\n");
             
-         //   strHttpHead.append("Keep-Alive: 45000\r\n");
-           // strHttpHead.append("Accept-Language: en_US\r\n");
-            
-            
-            
-           // strHttpHead.append("Accept-Encoding: identity\r\n");
-            
-            
-            
-//
-//            strHttpHead.append("Best-Effort: true\r\n");
-//             strHttpHead.append("Connection: close\r\n");
-//             strHttpHead.append("DownloadRate: 20000\r\n");
-//            strHttpHead.append(dstPort);
-//            strHttpHead.append("\r\n");
-//            strHttpHead.append("Icy-MetaData: 1\r\n");
-//            strHttpHead.append("Keep-Alive: 45000\r\n");
-//            strHttpHead.append("Range: bytes=0-");
-           
-          
-            //strHttpHead.append(strBytes);
-//            strHttpHead.append("\r\n");
-//
-            
-           
-            //strHttpHead.append("User-Agent: VLC/3.0.6 LibVLC/3.0.6\r\n");
-            //
-            
-            
-
-//            if (strMethod=="POST") {
-//                char len[8]={0};
-//                unsigned long iLen=strData.size();
-//                std::cout<<len<<iLen<<std::endl;
-//
-//                strHttpHead.append("Content-Type: application/x-www-form-urlencoded\r\n");
-//                strHttpHead.append("Content-Length: ");
-//                strHttpHead.append(len);
-//                strHttpHead.append("\r\n\r\n");
-//                strHttpHead.append(strData);
-//
-//            }
+     
             strHttpHead.append("\r\n");
             
            // std::cout<<strHttpHead<<std::endl;
@@ -314,14 +241,14 @@ namespace mgc {
         {
             char *head=(char *)strHttpHead.data();
             //std::cout<<head<<std::endl;
-            long ret=send(isSocFd, (void *)head, strlen(head), 0);
+            long ret=send(isSocFd, head, strlen(head), 0);
 //            std::cout<<isSocFd<<std::endl;
             std::cout<<head<<std::endl;
 //            std::cout<<strlen(head)+1<<std::endl;
             if(ret<0)
             {
                 debugOut("send error !Error code:",errno,strerror(errno));
-                close(isSocFd);
+				closesocket(isSocFd);
                 return "";
             }
 
@@ -383,7 +310,7 @@ namespace mgc {
             buf[BUFSIZE]='\0';
                 
               
-            ret=recv(isSocFd, (void *)buf, BUFSIZE, 0);
+            ret=recv(isSocFd, buf, BUFSIZE, 0);
         
             if(ret>0){
               //  std::string strRecv=buf;
@@ -399,7 +326,7 @@ namespace mgc {
                 
                     continue;
                 }else{
-                    close(isSocFd);
+					closesocket(isSocFd);
                     free(buf);
                     outFile.close();
                 
@@ -515,7 +442,7 @@ namespace mgc {
             char *strPort = strchr(strAddr, ':');
             if (strPort == NULL)
             {
-                nPort = 8080;
+                nPort = 8002;
             }
             else
             {
@@ -602,6 +529,7 @@ namespace mgc {
             if(iRet > 0)
             {
                 //判断SocketFd是否为可写不可读状态
+
                 int iW = FD_ISSET(iSockFd,&wset);
                 int iR = FD_ISSET(iSockFd,&rset);
                 if(iW && !iR)

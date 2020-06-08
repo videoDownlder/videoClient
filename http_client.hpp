@@ -1,10 +1,4 @@
-//
-//  http_client.hpp
-//  Http_Client
-//
-//  Created by afk on 2019/7/11.
-//  Copyright © 2019年 mgc. All rights reserved.
-//
+
 
 #ifndef http_client_hpp
 #define http_client_hpp
@@ -15,22 +9,22 @@
 
 #include <string>
 #include <functional>
-#include <sys/socket.h>
+
 #include <errno.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
 #include <fcntl.h>
 #include <iostream>
-#include <netdb.h>
+
 #include <fstream>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <algorithm>
-#include <pthread.h>
+#include <winsock2.h>
+#include <string.h>
+#include <WS2tcpip.h>
+#pragma comment( lib, "ws2_32.lib")
 
 
-#define INVALID_SOCKET (-1)
+//#define INVALID_SOCKET (-1)
 #define BUFSIZE (8192)
 #define URLSIZE (2048)
 

@@ -1,10 +1,4 @@
-//
-//  analyseTS.hpp
-//  Http_Client
-//
-//  Created by afk on 2020/3/31.
-//  Copyright © 2020年 mgc. All rights reserved.
-//
+
 
 #ifndef analyseTS_hpp
 #define analyseTS_hpp
