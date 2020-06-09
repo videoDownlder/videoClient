@@ -113,6 +113,18 @@ namespace mgc {
                 }
             }
 
+			WORD wVersionRequested;
+			WSADATA wsaData;
+			int err;
+			wVersionRequested = MAKEWORD(1, 1);
+			err = WSAStartup(wVersionRequested, &wsaData);
+			if (err != 0)
+			{
+				debugOut("\n\n-----TCP WSAStartup failed------\n\n");
+				return S_FALSE;
+			}
+			
+
             m_iSocketFd=INVALID_SOCKET;
             m_iSocketFd=socket(AF_INET,SOCK_STREAM,0);
 
@@ -151,20 +163,12 @@ namespace mgc {
                 return 0;
             }
 
-//            int flags=fcntl(m_iSocketFd,F_GETFL,0);
-//            if(fcntl(m_iSocketFd, F_SETFL,flags|O_NONBLOCK)==-1)
-//            {
-//                close(m_iSocketFd);
-//                m_iSocketFd=INVALID_SOCKET;
-//                debugOut("fcntl error!Error code :%d,Error message :%s",errno,strerror(errno));
-//                return 0;
-//            }
-
-           // std::cout<<errno<<std::endl;
-            //EINPROGRESS
+//          
             int iRet=connect(m_iSocketFd, (struct sockaddr*)&servaddr, sizeof(servaddr));
             if (iRet==0) {
-                std::string strResult=httpDataTransmit(strHttpHead, m_iSocketFd,fileString,headString);
+
+				std::string strResult;
+				strResult=httpDataTransmit(strHttpHead, m_iSocketFd,fileString,headString);
                 if (NULL==strResult.c_str()) {
 					closesocket(m_iSocketFd);
                     m_iSocketFd=INVALID_SOCKET;
