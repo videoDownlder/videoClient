@@ -262,13 +262,13 @@ namespace mgc {
            // ret=recv(isSocFd, (void *)buf, BUFSIZE, 0);
 
             char * recvBuf = new char[1024];
-
+			char *buf = new char[BUFSIZE];
             int j=0;
             //接收head文件
             while (this->_cancel==0){
                 memset(recvBuf, 0, 1024);
-                recvBuf[1024]='\0';
-                ret = recv(isSocFd, recvBuf,1024, 0);
+                recvBuf[1023]='\0';
+                ret = recv(isSocFd, recvBuf,1023, 0);
                 if (ret > 0){
                   //  strncat(buf, recvBuf, ret);
 
@@ -301,17 +301,13 @@ namespace mgc {
             }
             free(recvBuf);
 //
-            char *buf=new char[BUFSIZE];
-            //body 信息
-
-           // int i=0;
-           // int  i=0;
+           
             while (1) {
               //  i++;
                 
                // std::cout<<i<<std::endl;
             memset(buf, 0, BUFSIZE);
-            buf[BUFSIZE]='\0';
+            buf[BUFSIZE-1]='\0';
                 
               
             ret=recv(isSocFd, buf, BUFSIZE, 0);
