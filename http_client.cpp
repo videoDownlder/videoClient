@@ -46,34 +46,8 @@ namespace mgc {
             
         }*/
         
-      /*  function1("/Users/afk/1.mp4", 0, "/Users/afk/test/urltest/test/2.mp4","/Users/afk/test/urltest/test/2.mp4","/Users/afk/test/urltest/test/head","http:127.0.0.1:9876/"," http://117.131.17.227:40000/_uploads/videos/huanglesong.mp4 HTTP/1.1 \r\n","Host: 117.131.17.227:40000");
-       
-       void function1(std::string src,long offset,std::string dst,std::string fileString,std::string headString,std::string url,std::string dstUrl,std::string dstPort)*/
+     
         
-        
-      //  HttpClient::httpGet("http://127.0.0.1:9876/",strResponse," 0-","/Users/afk/test/urltest/test/2.mp4","/Users/afk/test/urltest/test/head"," http://117.131.17.227:40000/_uploads/videos/huanglesong.mp4 HTTP/1.1 \r\n","Host: 117.131.17.227:40000"
-//        void HttpClient::run(){
-//           // std::string strResponse;
-//           
-//            pthread_t run_thread1;
-//            //pthread_t run_thread2;
-//            if(pthread_create(&run_thread1, NULL,_run_thread1, this)!=0){
-//                perror("error: run_thread1 create error");
-//                return ;
-//            }
-////            if(pthread_create(&run_thread2, NULL, _run_thread2, this)!=0){
-////                perror("error:run_thread2 create error");
-////            }
-//            pthread_detach(run_thread1);
-//           // sleep(3);
-//         //   pthread_detach(run_thread2);
-//            
-//          
-//            return ;
-//        }
-        
-        
-       
         
         int HttpClient::httpGet(std::string strUrl, std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl,std::string dstPort)
         {

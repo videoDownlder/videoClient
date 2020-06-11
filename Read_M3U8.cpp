@@ -9,11 +9,7 @@ std::vector<std::string> Read(std::string M3U8_string,std::string URL)  //读取
     
     FILE *M3U8=fopen(M3U8_string.c_str(), "r");
     
-   // int num=URL.find("/video.");
-    
-    int num=URL.find("media/");
-    std::cout<< URL.substr(0,num+6)<<std::endl;
-    URL=URL.substr(0,num+6);
+   
     std::vector<std::string> TSvector_URL;
     char n;
     std::string TS_URL;
@@ -46,9 +42,9 @@ std::vector<std::string> Read(std::string M3U8_string,std::string URL)  //读取
             
             //break;
             
-            URLM=URLM.append(TS_URL);
-            std::cout<<URLM<<std::endl;
-            TSvector_URL.push_back(URLM);
+            /*URLM=URLM.append(TS_URL);
+            std::cout<<URLM<<std::endl;*/
+            TSvector_URL.push_back(TS_URL);
             
             if (n=='\0'||n=='\x01') {
                 break;
@@ -61,11 +57,6 @@ std::vector<std::string> Read(std::string M3U8_string,std::string URL)  //读取
         }
     }
     
-   //std::cout<<TS_URL<<std::endl;
-    
-    
-    
-    //TS_URL=TS_URL.append(URL);
     
     fclose(M3U8);
     

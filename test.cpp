@@ -25,13 +25,14 @@ void function (std::string fileString,std::string headString,std::string url,std
     std::string TS_file,TS_head;
     
     
-    TS_head=headString.append(".txt");
+    TS_head=headString.append("_ts.txt");
     
     
     for (int i =0; i<TS_URL.size(); i++) {
        // TS_file="/Users/afk/test/urltest/test-subtitles/video/";
-        TS_file="/Users/afk/test/urltest/1/";
-        TS_file=TS_file.append(TS_URL[i].substr(TS_URL[i].find("media/")+6,TS_URL[i].find("ts?")-TS_URL[i].find("media/")-4));
+        TS_file="D:\\c++\\video\\";
+		TS_URL[i] = TS_URL[i].substr(0, TS_URL[i].find(".ts")+3);
+        TS_file=TS_file.append(TS_URL[i]);
        // TS_file=fileString.append(".ts");
         if (http->httpGet(url , return_msg,strBytes,TS_file,TS_head,TS_URL[i],dstPort))
         {
