@@ -200,7 +200,7 @@ namespace mgc {
             strHttpHead.append("HTTP/1.1\r\n");
             strHttpHead.append("User-Agent: MGPlayer4Android/v9.9.2.29\r\n");
             strHttpHead.append("Accept: */*\r\n");
-             strHttpHead.append("Range: bytes=0-\r\n");
+            strHttpHead.append("Range: bytes=0-\r\n");
             strHttpHead.append("Connection: close\r\n");
             strHttpHead.append("Host: hlsmgspvod.miguvideo.com:8080\r\n");
             strHttpHead.append("Icy-MetaData: 1\r\n");\

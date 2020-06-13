@@ -17,7 +17,7 @@
 int main(int argc, const char * argv[]) {
  
     
-    function("D:\\c++\\video\\db.m3u8","D:\\c++\\video\\head","http://122.51.107.111:8002","/db.m3u8","Host: hlsmgspvod.miguvideo.com:8080");
+    function("D:\\c++\\video\\db.m3u8","D:\\c++\\video\\head","http://122.51.107.111:8002/","/db.m3u8","Host: hlsmgspvod.miguvideo.com:8080");
 
 //	std::cout << "yes" << std::endl;
 //	waitKey(0);
