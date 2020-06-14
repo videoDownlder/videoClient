@@ -30,36 +30,15 @@ namespace mgc {
             return;
         }
         
-    /*    void *_run_thread1(void *){
-            std::string strResponse;
-             HttpClient *http=new  HttpClient(INVALID_SOCKET,0);
-            http->httpGet("http://127.0.0.1:9876/",strResponse," 0-","/Users/afk/test/urltest/test/1.mp4","/Users/afk/test/urltest/test/head1"," http://117.131.17.227:40000/_uploads/videos/huanglesong.mp4 HTTP/1.1 \r\n","Host: 117.131.17.227:40000");
-            pthread_exit(NULL);
-
-        }
-        
-        void *_run_thread2(void *){
-            std::string strResponse;
-            HttpClient *http=new HttpClient(INVALID_SOCKET,0);
-            http->HttpClient::httpGet("http://127.0.0.1:9876/",strResponse," 0-","/Users/afk/test/urltest/test/2.mp4","/Users/afk/test/urltest/test/head2"," http://117.131.17.227:40000/_uploads/videos/huanglesong.mp4 HTTP/1.1 \r\n","Host: 117.131.17.227:40000");
-            pthread_exit(NULL);
-            
-        }*/
-        
-     
         
         
-        int HttpClient::httpGet(std::string strUrl, std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl,std::string dstPort)
+        int HttpClient::httpGet(std::string strUrl, std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl)
         {
-            return httpResquestExec("GET", strUrl, "", strResponse,strBytes,fileString,headString,dstUrl,dstPort);
+            return httpResquestExec("GET", strUrl, "", strResponse,strBytes,fileString,headString,dstUrl);
         }
 
-        int HttpClient::httpPost(std::string strUrl, std::string strData, std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl,std::string dstPort)
-        {
-            return httpResquestExec("POST", strUrl, strData, strResponse,strBytes,fileString,headString,dstUrl,dstPort);
-        }
 
-        int HttpClient::httpResquestExec(std::string strMethod, std::string strUrl, std::string strData, std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl,std::string dstPort)
+        int HttpClient::httpResquestExec(std::string strMethod, std::string strUrl, std::string strData, std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl)
         {
             if (strUrl=="") {
                 debugOut("URL为空");
@@ -73,7 +52,7 @@ namespace mgc {
            // strUrl="http://www.csdn.net/\r\n";
             
            // strUrl="http://hlsmgspvod.miguvideo.com";
-            std::string strHttpHead=httpHeadCreate(strMethod, strUrl, strData,strBytes,dstUrl,dstPort);
+            std::string strHttpHead=httpHeadCreate(strMethod, strUrl, strData,strBytes,dstUrl);
 
             if(m_iSocketFd!=-1)
             {
@@ -182,7 +161,7 @@ namespace mgc {
             return 1;
         }
 
-        std::string HttpClient::httpHeadCreate(std::string strMethod, std::string strUrl, std::string strData,std::string strBytes,std::string dstUrl,std::string dstPort)
+        std::string HttpClient::httpHeadCreate(std::string strMethod, std::string strUrl, std::string strData,std::string strBytes,std::string dstUrl)
         {
 //            std::string strHost=getHostAddFromUrl(strUrl);
 //            std::string strParam=getParamFromUrl(strUrl);

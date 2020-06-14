@@ -37,8 +37,7 @@ namespace mgc {
             
             static HttpClient *getInstance();
             void debugOut(std::string fmt,...);
-            int httpGet(std::string strUrl,std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl,std::string dstPort);
-            int httpPost(std::string strUrl,std::string strData,std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl,std::string dstPort);
+            int httpGet(std::string strUrl,std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl);
             int differ(std::string strfile1,long site,std::string strfile2);//返回1表示比对成功，返回0表示比对失败
             void cancel();
             void begin();
@@ -48,8 +47,8 @@ namespace mgc {
            
             
         private:
-            int httpResquestExec(std::string strMethod,std::string strUrl,std::string strData,std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl,std::string dstPort);
-            std::string httpHeadCreate(std::string strMethod,std::string strUrl,std::string strData,std::string strBytes,std::string dstUrl,std::string dstPort);
+            int httpResquestExec(std::string strMethod,std::string strUrl,std::string strData,std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl);
+            std::string httpHeadCreate(std::string strMethod,std::string strUrl,std::string strData,std::string strBytes,std::string dstUrl);
             std::string httpDataTransmit(std::string strHttpHead, int isSocFd,std::string fileString,std::string headString);
 
             int getPortFromUrl(std::string strUrl);

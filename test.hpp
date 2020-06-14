@@ -7,6 +7,7 @@
 
 
 
-void function (std::string fileString,std::string headString,std::string url,std::string dstUrl,std::string dstPort);
+//void function (std::string File);
+void function(std::string File,std::string Position="D:\\c++\\video\\",std::string url= "http://122.51.107.111:8002/");
 
 #endif /* test_hpp */
