@@ -32,13 +32,13 @@ namespace mgc {
         
         
         
-        int HttpClient::httpGet(std::string strUrl, std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl)
+        int HttpClient::httpGet(std::string strUrl,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl)
         {
-            return httpResquestExec("GET", strUrl, "", strResponse,strBytes,fileString,headString,dstUrl);
+            return httpResquestExec("GET", strUrl,strBytes,fileString,headString,dstUrl);
         }
 
 
-        int HttpClient::httpResquestExec(std::string strMethod, std::string strUrl, std::string strData, std::string &strResponse,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl)
+        int HttpClient::httpResquestExec(std::string strMethod, std::string strUrl,std::string strBytes,std::string fileString,std::string headString,std::string dstUrl)
         {
             if (strUrl=="") {
                 debugOut("URL为空");
@@ -49,21 +49,12 @@ namespace mgc {
                 debugOut("URL不能超过2048");
                 return 0;
             }
-           // strUrl="http://www.csdn.net/\r\n";
-            
-           // strUrl="http://hlsmgspvod.miguvideo.com";
-            std::string strHttpHead=httpHeadCreate(strMethod, strUrl, strData,strBytes,dstUrl);
+            std::string strHttpHead=httpHeadCreate(strMethod, strUrl,strBytes,dstUrl);
 
             if(m_iSocketFd!=-1)
             {
-                std::string strResult=httpDataTransmit(strHttpHead, m_iSocketFd,fileString,headString);
-            
-
-                if(strResult!="")
-                {
-                    strResponse=strResult;
-                    return 1;
-                }
+                httpDataTransmit(strHttpHead, m_iSocketFd,fileString,headString);
+           
             }
 
 			WORD wVersionRequested;
@@ -109,6 +100,9 @@ namespace mgc {
             servaddr.sin_family=AF_INET;
             servaddr.sin_port=htons(iPort);
 
+	
+		
+
             if (inet_pton(AF_INET,strIP.data(),&servaddr.sin_addr)<=0) {
                 debugOut("inet_pton error!Error code:%d,Error message:%s\n",errno,strerror(errno));
 				closesocket(m_iSocketFd);
@@ -120,17 +114,14 @@ namespace mgc {
             int iRet=connect(m_iSocketFd, (struct sockaddr*)&servaddr, sizeof(servaddr));
             if (iRet==0) {
 
-				std::string strResult;
-				strResult=httpDataTransmit(strHttpHead, m_iSocketFd,fileString,headString);
-                if (NULL==strResult.c_str()) {
+				
+				httpDataTransmit(strHttpHead, m_iSocketFd,fileString,headString);
+                
 					closesocket(m_iSocketFd);
                     m_iSocketFd=INVALID_SOCKET;
                     return 0;
-                }
-                else{
-                    strResponse=strResult;
-                    return 1;
-                }
+                
+                
             }
             else if(iRet<0){
                 std::cout<<"connect error "<<std::endl;
@@ -140,16 +131,13 @@ namespace mgc {
 
             iRet=socketFdCheck(m_iSocketFd);
             if(iRet>0){
-                std::string strResult=httpDataTransmit(strHttpHead, m_iSocketFd,fileString,headString);
-                if (strResult=="") {
+                httpDataTransmit(strHttpHead, m_iSocketFd,fileString,headString);
+                
 					closesocket(m_iSocketFd);
                     m_iSocketFd=INVALID_SOCKET;
                     return 0;
-                }
-                else{
-                    strResponse=strResult;
-                    return 1;
-                }
+                
+               
 
             }
             else{
@@ -161,7 +149,7 @@ namespace mgc {
             return 1;
         }
 
-        std::string HttpClient::httpHeadCreate(std::string strMethod, std::string strUrl, std::string strData,std::string strBytes,std::string dstUrl)
+        std::string HttpClient::httpHeadCreate(std::string strMethod, std::string strUrl,std::string strBytes,std::string dstUrl)
         {
 //            std::string strHost=getHostAddFromUrl(strUrl);
 //            std::string strParam=getParamFromUrl(strUrl);
@@ -194,7 +182,7 @@ namespace mgc {
             return strHttpHead;
         }
 
-        std::string HttpClient::httpDataTransmit(std::string strHttpHead, int isSocFd,std::string fileString,std::string headString)
+        void HttpClient::httpDataTransmit(std::string strHttpHead, int isSocFd,std::string fileString,std::string headString)
         {
             char *head=(char *)strHttpHead.data();
             //std::cout<<head<<std::endl;
@@ -202,11 +190,13 @@ namespace mgc {
 //            std::cout<<isSocFd<<std::endl;
             std::cout<<head<<std::endl;
 //            std::cout<<strlen(head)+1<<std::endl;
+			
+
             if(ret<0)
             {
                 debugOut("send error !Error code:",errno,strerror(errno));
 				closesocket(isSocFd);
-                return "";
+                return ;
             }
 
             std::ofstream outFile(fileString,std::ios_base::binary);
@@ -268,10 +258,7 @@ namespace mgc {
             if(ret>0){
               //  std::string strRecv=buf;
                 outFile.write(buf, ret);
-               // std::cout<<"i:"<<i<<std::endl;
-               // i++;
-                
-            
+          
             }
             else if (ret<=0){
                 if(errno==EINTR||errno==EWOULDBLOCK||errno==EAGAIN)
@@ -280,20 +267,18 @@ namespace mgc {
                     continue;
                 }else{
 					closesocket(isSocFd);
+					std::cout << buf << std::endl;
                     free(buf);
                     outFile.close();
                 
-                    return "";
+					return;
                 }
 
                 }
             }
+             
             
-            
-         //   sleep(1);
-            
-            
-            return "";
+            return ;
         }
 
         std::string HttpClient::getHostAddFromUrl(std::string strUrl){

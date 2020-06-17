@@ -15,11 +15,11 @@ void function(std::string File, std::string Position , std::string url ) {
 
 	mgc::proxy::HttpClient *http = mgc::proxy::HttpClient::getInstance();
 
-	std::string return_msg;
-	std::string strBytes = " 0-";
-	if (http->httpGet(url, return_msg, strBytes, M3u8FilePosition, M3u8HeadPosition, M3u8FileName))
+	
+	std::string strBytes = "0-";
+	if (http->httpGet(url, strBytes, M3u8FilePosition, M3u8HeadPosition, M3u8FileName))
 	{
-		std::cout << return_msg << std::endl;
+		
 	}
 	else
 		std::cout << "error" << std::endl;
@@ -39,7 +39,7 @@ void function(std::string File, std::string Position , std::string url ) {
 		TS_Name[i] = TS_Name[i].substr(0, TS_Name[i].find(".ts") + 3);
 		TsFilePosition = Position + TS_Name[i];
 		// TS_file=fileString.append(".ts");
-		if (http->httpGet(url, return_msg, strBytes, TsFilePosition, TSHeadPosition, TS_Name[i]))
+		if (http->httpGet(url, strBytes, TsFilePosition, TSHeadPosition, TS_Name[i]))
 		{
 			//std::cout << return_msg <<std::endl;
 		}
